@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 
-import { AboutComponent } from './about.component';
+import { DetailComponent } from './detail.component';
 
 const routes: Routes = [
   // Module is lazy loaded, see app-routing.module.ts
-  { path: '', component: AboutComponent, data: { title: marker('About') } },
+  { path: '', component: DetailComponent, data: { title: marker('Detail') } },
 ];
 
 @NgModule({
@@ -14,4 +14,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [],
 })
-export class AboutRoutingModule {}
+export class DetailRoutingModule {}
