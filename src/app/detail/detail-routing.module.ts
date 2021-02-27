@@ -6,7 +6,7 @@ import { DetailComponent } from './detail.component';
 
 const routes: Routes = [
   // Module is lazy loaded, see app-routing.module.ts
-  { path: '', component: DetailComponent, data: { title: marker('Detail') } },
+  { path: ':id', component: DetailComponent, data: { title: marker('Detail') } },
 ];
 
 @NgModule({

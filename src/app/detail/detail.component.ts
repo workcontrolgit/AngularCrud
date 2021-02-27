@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { environment } from '@env/environment';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-detail',
@@ -9,8 +10,16 @@ import { environment } from '@env/environment';
 })
 export class DetailComponent implements OnInit {
   version: string | null = environment.version;
+  message = '';
+  sub: any;
+  id: any;
+  constructor(private route: ActivatedRoute) {}
 
-  constructor() {}
-
-  ngOnInit() {}
+  ngOnInit() {
+    this.sub = this.route.params.subscribe((params) => {
+      this.id = params['id'];
+    });
+    this.message = this.id;
+    console.log(this.id);
+  }
 }

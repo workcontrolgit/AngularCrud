@@ -2,9 +2,35 @@
   <div class="jumbotron text-center">
     <h1>
       <img class="logo" src="assets/ngx-rocket-logo.png" alt="angular logo" />
-      <span translate>Hello world !</span>
+      <span translate>Angular 11 CRUD Tutorrial</span>
     </h1>
-    <app-loader [isLoading]="isLoading"></app-loader>
-    <q [hidden]="isLoading">{{ quote }}</q>
   </div>
+
+  <!-- <table datatable [dtOptions]="dtOptions"  class="row-border hover"></table> -->
+  <table datatable [dtOptions]="dtOptions" class="table-border hover">
+    <thead>
+      <tr>
+        <th>Position Number</th>
+        <th>Position Title</th>
+        <th>Position Descripton</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="positions?.length != 0">
+      <tr *ngFor="let position of positions">
+        <!-- <td><a class="nav-item nav-link text-uppercase" routerLink="/detail" routerLinkActive="active">{{ position.positionNumber }}</a></td> -->
+        <td>
+          <!-- <a class="nav-item nav-link text-uppercase" routerLink="/detail" routerLinkActive="active">{{ position.positionNumber }}</a> -->
+          <!-- <a [routerLink]="['/detail', position.positionNumber]">{{ position.positionNumber }}</a> -->
+          <a [routerLink]="['/detail', position.positionNumber]">{{ position.positionNumber }}</a>
+        </td>
+        <td>{{ position.positionTitle }}</td>
+        <td>{{ position.positionDescription }}</td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="positions?.length == 0">
+      <tr>
+        <td colspan="3" class="no-data-available">No data!</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

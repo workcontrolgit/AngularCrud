@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { finalize } from 'rxjs/operators';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 
-import { QuoteService } from './quote.service';
+import { environment } from '@env/environment';
+import { Position } from '@shared/models/position';
+import { ApiHttpService } from '@core/services/api-http.service';
+import { ApiEndpointsService } from '@core/services/api-endpoints.service';
+import { DataTablesResponse } from '@shared/classes/data-tables-response';
+
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-master',
@@ -9,22 +15,57 @@ import { QuoteService } from './quote.service';
   styleUrls: ['./master.component.scss'],
 })
 export class MasterComponent implements OnInit {
-  quote: string | undefined;
+  version: string | null = environment.version;
+
+  dtOptions: DataTables.Settings = {};
+  positions: Position[];
   isLoading = false;
 
-  constructor(private quoteService: QuoteService) {}
+  // We use this trigger because fetching the list of persons can be quite long,
+  // thus we ensure the data is fetched before rendering
+  dtTrigger: Subject<any> = new Subject<any>();
+
+  constructor(
+    private apiHttpService: ApiHttpService,
+    private apiEndpointsService: ApiEndpointsService,
+    private renderer: Renderer2,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.isLoading = true;
-    this.quoteService
-      .getRandomQuote({ category: 'dev' })
-      .pipe(
-        finalize(() => {
-          this.isLoading = false;
-        })
-      )
-      .subscribe((quote: string) => {
-        this.quote = quote;
-      });
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      serverSide: true,
+      processing: true,
+      ajax: (dataTablesParameters: any, callback) => {
+        this.apiHttpService
+          .post(this.apiEndpointsService.postPositionsEndpoint(), dataTablesParameters)
+
+          .subscribe((resp: DataTablesResponse) => {
+            this.positions = resp.data;
+
+            callback({
+              recordsTotal: resp.recordsTotal,
+              recordsFiltered: resp.recordsFiltered,
+              data: [],
+            });
+          });
+      },
+      columns: [
+        {
+          title: 'Number',
+          data: 'positionNumber',
+        },
+        {
+          title: 'Title',
+          data: 'positionTitle',
+        },
+        {
+          title: 'Description',
+          data: 'positionDescription',
+        },
+      ],
+    };
   }
 }
