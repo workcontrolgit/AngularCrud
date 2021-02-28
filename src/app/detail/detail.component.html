@@ -10,4 +10,96 @@
     You clicked on: <strong>{{ message }}</strong>
   </p>
   <br />
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="entryForm" novalidate>
+    <div class="alert alert-danger" [hidden]="!error" translate>
+      PositionNumber,PositionTitle, or PositionDescription incorrect.
+    </div>
+    <div class="form-group">
+      <label class="d-block">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="positionNumber"
+          autocomplete="positionNumber"
+          [placeholder]="'PositionNumber' | translate"
+          required
+        />
+        <span hidden translate>PositionNumber</span>
+        <small
+          [hidden]="entryForm.controls.positionNumber.valid || entryForm.controls.positionNumber.untouched"
+          class="text-danger"
+          translate
+        >
+          Position Number is required
+        </small>
+      </label>
+      <label class="d-block">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="positionTitle"
+          autocomplete="current-positionTitle"
+          [placeholder]="'PositionTitle' | translate"
+          required
+        />
+        <span hidden translate>PositionTitle</span>
+        <small
+          [hidden]="entryForm.controls.positionTitle.valid || entryForm.controls.positionTitle.untouched"
+          class="text-danger"
+          translate
+        >
+          Position Title is required
+        </small>
+      </label>
+      <label class="d-block">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="positionDescription"
+          autocomplete="current-positionDescription"
+          [placeholder]="'PositionDescription' | translate"
+          required
+        />
+        <span hidden translate>PositionDescription</span>
+        <small
+          [hidden]="entryForm.controls.positionDescription.valid || entryForm.controls.positionDescription.untouched"
+          class="text-danger"
+          translate
+        >
+          Position Description is required
+        </small>
+      </label>
+      <label class="d-block">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="positionSalary"
+          autocomplete="current-positionSalary"
+          [placeholder]="'PositionSalary' | translate"
+          required
+        />
+        <span hidden translate>PositionDescription</span>
+        <small
+          [hidden]="entryForm.controls.positionSalary.valid || entryForm.controls.positionSalary.untouched"
+          class="text-danger"
+          translate
+        >
+          Position Salary is required
+        </small>
+      </label>
+    </div>
+    <button class="btn btn-primary w-20" type="submit" [disabled]="entryForm.invalid">
+      <span translate>Insert</span>
+    </button>
+    <button class="btn btn-primary w-20" type="submit" [disabled]="entryForm.invalid">
+      <span translate>Update</span>
+    </button>
+    <button class="btn btn-primary w-20" type="submit" [disabled]="entryForm.invalid">
+      <span translate>Delete</span>
+    </button>
+    <button class="btn btn-primary w-20" type="reset" [disabled]="entryForm.invalid">
+      <span translate>Reset</span>
+    </button>
+  </form>
 </div>

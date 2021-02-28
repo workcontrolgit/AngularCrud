@@ -18,6 +18,11 @@ export class ApiEndpointsService {
   /* #region EXAMPLES */
   public getDataByIdEndpoint = (id: string): string => this.createUrlWithPathVariables('data', [id]);
 
+  public getPositionByIdEndpoint = (id: string): string => this.createUrlWithPathVariables('Positions', [id]);
+
+  public deletePositionByIdEndpoint = (id: string): string => this.createUrlWithPathVariables('Positions', [id]);
+  //public getPositionByIdEndpoint = (): string => this.createUrl('Positions');
+
   public getDataByIdAndCodeEndpoint = (id: string, code: number): string =>
     this.createUrlWithPathVariables('data', [id, code]);
 
@@ -56,8 +61,9 @@ export class ApiEndpointsService {
 
   // call regular endpoint without boolean true at end
   // https://localhost:44378/api/v1 (ASP.NET CORE REST API.  Repo https://github.com/workcontrolgit/AngularNgxDataTableBackend)
-  public postPositionsEndpoint = (): string => this.createUrl('Positions/Paged');
+  public postPositionsPagedEndpoint = (): string => this.createUrl('Positions/Paged');
 
+  public putPositionsPagedEndpoint = (): string => this.createUrl('Positions');
   /* #endregion */
 
   /* #region URL CREATOR */

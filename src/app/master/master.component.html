@@ -17,11 +17,13 @@
     </thead>
     <tbody *ngIf="positions?.length != 0">
       <tr *ngFor="let position of positions">
-        <!-- <td><a class="nav-item nav-link text-uppercase" routerLink="/detail" routerLinkActive="active">{{ position.positionNumber }}</a></td> -->
+        <!-- <td><a class="nav-item nav-link text-uppercase" routerLink="/detai
+          
+          l" routerLinkActive="active">{{ position.positionNumber }}</a></td> -->
         <td>
           <!-- <a class="nav-item nav-link text-uppercase" routerLink="/detail" routerLinkActive="active">{{ position.positionNumber }}</a> -->
           <!-- <a [routerLink]="['/detail', position.positionNumber]">{{ position.positionNumber }}</a> -->
-          <a [routerLink]="['/detail', position.positionNumber]">{{ position.positionNumber }}</a>
+          <a [routerLink]="['/detail', position.id]">{{ position.positionNumber }}</a>
         </td>
         <td>{{ position.positionTitle }}</td>
         <td>{{ position.positionDescription }}</td>

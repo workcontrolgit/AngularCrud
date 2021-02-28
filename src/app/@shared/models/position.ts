@@ -1,6 +1,7 @@
 export interface Position {
-  id: number;
+  id: string;
   positionNumber: string;
+  positionTitle: string;
   positionDescription: string;
   positionSalary: number;
 }
