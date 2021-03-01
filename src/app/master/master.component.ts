@@ -14,6 +14,8 @@ import { Subject } from 'rxjs';
   styleUrls: ['./master.component.scss'],
 })
 export class MasterComponent implements OnInit {
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement!: DataTableDirective;
   version: string | null = environment.version;
 
   dtOptions: DataTables.Settings = {};
@@ -32,6 +34,7 @@ export class MasterComponent implements OnInit {
       serverSide: true,
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
+        //dataTablesParameters.Draw = 1;
         this.apiHttpService
           .post(this.apiEndpointsService.postPositionsPagedEndpoint(), dataTablesParameters)
           .subscribe((resp: DataTablesResponse) => {
@@ -45,6 +48,10 @@ export class MasterComponent implements OnInit {
       },
       columns: [
         {
+          title: 'Id',
+          data: 'id',
+        },
+        {
           title: 'Number',
           data: 'positionNumber',
         },
@@ -55,6 +62,10 @@ export class MasterComponent implements OnInit {
         {
           title: 'Description',
           data: 'positionDescription',
+        },
+        {
+          title: 'Salary',
+          data: 'positionSalary',
         },
       ],
     };

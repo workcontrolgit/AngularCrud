@@ -1,38 +1,54 @@
 <div class="container-fluid">
   <div class="jumbotron text-center">
-    <h1>
-      <img class="logo" src="assets/ngx-rocket-logo.png" alt="angular logo" />
+    <h2>
       <span translate>Angular 11 CRUD Tutorrial</span>
-    </h1>
+    </h2>
   </div>
 
-  <!-- <table datatable [dtOptions]="dtOptions"  class="row-border hover"></table> -->
-  <table datatable [dtOptions]="dtOptions" class="table-border hover">
-    <thead>
-      <tr>
-        <th>Position Number</th>
-        <th>Position Title</th>
-        <th>Position Descripton</th>
-      </tr>
-    </thead>
-    <tbody *ngIf="positions?.length != 0">
-      <tr *ngFor="let position of positions">
-        <!-- <td><a class="nav-item nav-link text-uppercase" routerLink="/detai
-          
-          l" routerLinkActive="active">{{ position.positionNumber }}</a></td> -->
-        <td>
-          <!-- <a class="nav-item nav-link text-uppercase" routerLink="/detail" routerLinkActive="active">{{ position.positionNumber }}</a> -->
-          <!-- <a [routerLink]="['/detail', position.positionNumber]">{{ position.positionNumber }}</a> -->
-          <a [routerLink]="['/detail', position.id]">{{ position.positionNumber }}</a>
-        </td>
-        <td>{{ position.positionTitle }}</td>
-        <td>{{ position.positionDescription }}</td>
-      </tr>
-    </tbody>
-    <tbody *ngIf="positions?.length == 0">
-      <tr>
-        <td colspan="3" class="no-data-available">No data!</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="card">
+    <div class="card-header">
+      <div class="float-left"><h4>Position</h4></div>
+      <div class="float-right">
+        <a class="btn btn-primary" [routerLink]="['/detail']"><i class="fa fa-plus"></i> Add</a>
+      </div>
+      <!-- <div>
+        <div class="form-group">
+          <label for="userName" class="control-label">Term</label>
+          <input type="text" (keyup)="search()" class="form-control" id="term" name="term" [(ngModel)]="searchTerm">
+        </div>
+      </div>   -->
+    </div>
+    <div class="card-body">
+      <table datatable [dtOptions]="dtOptions" class="table-border hover">
+        <thead>
+          <tr>
+            <th>Idr</th>
+            <th>Position Number</th>
+            <th>Position Title</th>
+            <th>Position Descripton</th>
+            <th>Position Salary</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="positions?.length != 0">
+          <tr *ngFor="let position of positions">
+            <td>
+              <a [routerLink]="['/detail', position.id]">{{ position.id }}</a>
+            </td>
+            <td>
+              {{ position.positionNumber }}
+              <!-- <a [routerLink]="['/detail']" [queryParams]="{ id: position.id }">{{ position.positionNumber }}</a> -->
+            </td>
+            <td>{{ position.positionTitle }}</td>
+            <td>{{ position.positionDescription }}</td>
+            <td>{{ position.positionSalary }}</td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="positions?.length == 0">
+          <tr>
+            <td colspan="3" class="no-data-available">No data!</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
