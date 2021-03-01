@@ -1,24 +1,24 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { environment } from '@env/environment';
 import { Position } from '@shared/models/position';
 import { ApiHttpService } from '@core/services/api-http.service';
 import { ApiEndpointsService } from '@core/services/api-endpoints.service';
 import { DataTablesResponse } from '@shared/classes/data-tables-response';
+import { Logger } from '@core';
 
-import { Subject } from 'rxjs';
-
+const log = new Logger('Master');
 @Component({
   selector: 'app-master',
   templateUrl: './master.component.html',
   styleUrls: ['./master.component.scss'],
 })
 export class MasterComponent implements OnInit {
-  @ViewChild(DataTableDirective, { static: false })
-  dtElement!: DataTableDirective;
-  version: string | null = environment.version;
+  // @ViewChild(DataTableDirective, { static: false })
+  // dtElement!: DataTableDirective;
 
   dtOptions: DataTables.Settings = {};
+  //dtTrigger: Subject<any> = new Subject();
   positions: Position[];
 
   // We use this trigger because fetching the list of persons can be quite long,
@@ -34,7 +34,9 @@ export class MasterComponent implements OnInit {
       serverSide: true,
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
-        //dataTablesParameters.Draw = 1;
+        // log.debug('Search:', dataTablesParameters.search);
+        // log.debug('Draw:', dataTablesParameters.draw);
+        // log.debug('Start:', dataTablesParameters.start);
         this.apiHttpService
           .post(this.apiEndpointsService.postPositionsPagedEndpoint(), dataTablesParameters)
           .subscribe((resp: DataTablesResponse) => {

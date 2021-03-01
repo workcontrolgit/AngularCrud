@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Logger, UntilDestroy, untilDestroyed } from '@core';
+import { Logger } from '@core';
 
 import { ApiHttpService } from '@core/services/api-http.service';
 import { ApiEndpointsService } from '@core/services/api-endpoints.service';

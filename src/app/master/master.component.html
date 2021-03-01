@@ -11,12 +11,6 @@
       <div class="float-right">
         <a class="btn btn-primary" [routerLink]="['/detail']"><i class="fa fa-plus"></i> Add</a>
       </div>
-      <!-- <div>
-        <div class="form-group">
-          <label for="userName" class="control-label">Term</label>
-          <input type="text" (keyup)="search()" class="form-control" id="term" name="term" [(ngModel)]="searchTerm">
-        </div>
-      </div>   -->
     </div>
     <div class="card-body">
       <table datatable [dtOptions]="dtOptions" class="table-border hover">
@@ -50,5 +44,6 @@
         </tbody>
       </table>
     </div>
+    <div class="card-footer">*Searchable columns are Number, Title and Description</div>
   </div>
 </div>
