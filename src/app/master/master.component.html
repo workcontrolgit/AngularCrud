@@ -7,42 +7,45 @@
 
   <div class="card">
     <div class="card-header">
-      <div class="float-left"><h4>Position</h4></div>
+      <div class="float-left"><h3 class="text-info">Position</h3></div>
       <div class="float-right">
         <a class="btn btn-primary" [routerLink]="['/detail']"><i class="fa fa-plus"></i> Add</a>
       </div>
     </div>
     <div class="card-body">
-      <table datatable [dtOptions]="dtOptions" class="table-border hover">
-        <thead>
-          <tr>
-            <th>Idr</th>
-            <th>Position Number</th>
-            <th>Position Title</th>
-            <th>Position Descripton</th>
-            <th>Position Salary</th>
-          </tr>
-        </thead>
-        <tbody *ngIf="positions?.length != 0">
-          <tr *ngFor="let position of positions">
-            <td>
+      <div class="table-responsive">
+        <table datatable [dtOptions]="dtOptions" class="table-border hover">
+          <thead>
+            <tr>
+              <!-- <th>Id</th> -->
+              <th>Position Number</th>
+              <th>Position Title</th>
+              <th>Position Descripton</th>
+              <th>Position Salary</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="positions?.length != 0">
+            <tr *ngFor="let position of positions">
+              <!-- <td>
               <a [routerLink]="['/detail', position.id]">{{ position.id }}</a>
-            </td>
-            <td>
-              {{ position.positionNumber }}
-              <!-- <a [routerLink]="['/detail']" [queryParams]="{ id: position.id }">{{ position.positionNumber }}</a> -->
-            </td>
-            <td>{{ position.positionTitle }}</td>
-            <td>{{ position.positionDescription }}</td>
-            <td>{{ position.positionSalary }}</td>
-          </tr>
-        </tbody>
-        <tbody *ngIf="positions?.length == 0">
-          <tr>
-            <td colspan="3" class="no-data-available">No data!</td>
-          </tr>
-        </tbody>
-      </table>
+            </td> -->
+              <td>
+                <!-- {{ position.positionNumber }} -->
+                <!-- <a [routerLink]="['/detail']" [queryParams]="{ id: position.id }">{{ position.positionNumber }}</a> -->
+                <a [routerLink]="['/detail', position.id]">{{ position.positionNumber }}</a>
+              </td>
+              <td>{{ position.positionTitle }}</td>
+              <td>{{ position.positionDescription }}</td>
+              <td>{{ position.positionSalary }}</td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="positions?.length == 0">
+            <tr>
+              <td colspan="3" class="no-data-available">No data!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div class="card-footer">*Searchable columns are Number, Title and Description</div>
   </div>

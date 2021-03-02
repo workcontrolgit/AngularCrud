@@ -8,9 +8,20 @@ import { DetailRoutingModule } from './detail-routing.module';
 import { DetailComponent } from './detail.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
+
+//import { ToastComponent } from '@shared/toast/toast.component';
+//import { ToastsContainer } from './toasts-container.component';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, DetailRoutingModule, ReactiveFormsModule, SharedModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    DetailRoutingModule,
+    ReactiveFormsModule,
+    SharedModule,
+    RxReactiveFormsModule,
+  ],
   declarations: [DetailComponent],
 })
 export class DetailModule {}

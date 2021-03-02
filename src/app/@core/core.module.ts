@@ -9,8 +9,6 @@ import { ApiPrefixInterceptor } from './http/api-prefix.interceptor';
 import { ErrorHandlerInterceptor } from './http/error-handler.interceptor';
 
 import { Constants } from '../config/constants';
-import { ApiHttpService } from '@core/services/api-http.service';
-import { ApiEndpointsService } from '@core/services/api-endpoints.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, TranslateModule, RouterModule],
@@ -30,8 +28,6 @@ import { ApiEndpointsService } from '@core/services/api-endpoints.service';
       useClass: RouteReusableStrategy,
     },
     Constants,
-    ApiHttpService,
-    ApiEndpointsService,
   ],
 })
 export class CoreModule {

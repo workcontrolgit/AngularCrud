@@ -4,7 +4,9 @@ import { HttpClient } from '@angular/common/http';
 // RxJs
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ApiHttpService {
   constructor(
     // Angular Modules

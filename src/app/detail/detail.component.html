@@ -129,11 +129,11 @@
             [disabled]="entryForm.invalid || !isAddNew"
             *ngIf="this.isAddNew"
           >
-            <span translate><i class="fas fa-save"></i> Save</span>
+            <span translate><i class="fas fa-plus"></i> Save</span>
           </button>
           <button
             (click)="onUpdate()"
-            class="btn btn-secondary w-20"
+            class="btn btn-primary w-20"
             type="submit"
             [disabled]="entryForm.invalid || isAddNew"
             *ngIf="!this.isAddNew"
@@ -157,3 +157,5 @@
     </div>
   </form>
 </div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

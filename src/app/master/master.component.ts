@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { environment } from '@env/environment';
 import { Position } from '@shared/models/position';
-import { ApiHttpService } from '@core/services/api-http.service';
-import { ApiEndpointsService } from '@core/services/api-endpoints.service';
+import { ApiHttpService } from '@app/services/api-http.service';
+import { ApiEndpointsService } from '@app/services/api-endpoints.service';
 import { DataTablesResponse } from '@shared/classes/data-tables-response';
 import { Logger } from '@core';
 
@@ -49,10 +49,10 @@ export class MasterComponent implements OnInit {
           });
       },
       columns: [
-        {
-          title: 'Id',
-          data: 'id',
-        },
+        // {
+        //   title: 'Id',
+        //   data: 'id',
+        // },
         {
           title: 'Number',
           data: 'positionNumber',

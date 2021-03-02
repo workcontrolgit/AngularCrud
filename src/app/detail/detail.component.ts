@@ -5,14 +5,16 @@ import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Logger } from '@core';
 
-import { ApiHttpService } from '@core/services/api-http.service';
-import { ApiEndpointsService } from '@core/services/api-endpoints.service';
+import { ApiHttpService } from '@app/services/api-http.service';
+import { ApiEndpointsService } from '@app/services/api-endpoints.service';
 import { Position } from '@shared/models/position';
 import { DataResponse } from '@shared/classes/data-response';
 
-import { NgbModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationDialogService } from '@app/services/confirmation-dialog.service';
 
-import { ConfirmationDialogService } from '@core/services/confirmation-dialog.service';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
+
+import { ToastService } from '@app/services/toast.service';
 
 const log = new Logger('Detail');
 
@@ -24,7 +26,6 @@ const log = new Logger('Detail');
 export class DetailComponent implements OnInit {
   title = 'ng-bootstrap-modal-demo';
   closeResult: string;
-  modalOptions: NgbModalOptions;
 
   version: string | null = environment.version;
   message = '';
@@ -38,17 +39,13 @@ export class DetailComponent implements OnInit {
   isAddNew: boolean = false;
 
   constructor(
-    private modalService: NgbModal,
+    public toastService: ToastService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private apiHttpService: ApiHttpService,
     private apiEndpointsService: ApiEndpointsService,
     private confirmationDialogService: ConfirmationDialogService
   ) {
-    this.modalOptions = {
-      backdrop: 'static',
-      backdropClass: 'customBackdrop',
-    };
     this.createForm();
   }
 
@@ -77,31 +74,25 @@ export class DetailComponent implements OnInit {
   }
 
   onInsert() {
+    this.create(this.entryForm.value);
     log.debug('OnInsert: ', this.entryForm.value);
     log.debug('OnInsert: ', this.entryForm.get('positionNumber').value);
   }
 
   onUpdate() {
-    this.confirmationDialogService
-      .confirm('Update confirmation', 'Are you sure?')
-      .then((confirmed) => {
-        log.debug('onUpdate: ', this.entryForm.value);
-        //here confirmed is true if user clicks OK and false if user clicks Cancel
-      })
-      .catch(() => {
-        log.debug('onUpdate: ', this.entryForm.get('positionNumber').value);
-      });
+    //this.showSuccess()
   }
 
   onDelee() {
     this.confirmationDialogService
-      .confirm('Delete confirmation', 'Are you sure?')
+      .confirm('Position deletion', 'Are you sure you want to delete?')
       .then((confirmed) => {
-        log.debug('onUpdate: ', this.entryForm.value);
+        log.debug('onDelee: ', this.entryForm.value);
+        this.delete(this.entryForm.get('id').value);
         //here confirmed is true if user clicks OK and false if user clicks Cancel
       })
       .catch(() => {
-        log.debug('onUpdate: ', this.entryForm.get('positionNumber').value);
+        log.debug('onDelee: ', this.entryForm.get('positionNumber').value);
       });
   }
 
@@ -131,6 +122,7 @@ export class DetailComponent implements OnInit {
         this.currentRecord = resp.data;
         log.debug(this.currentRecord);
         log.debug(resp);
+        this.showSuccess();
       },
       (error) => {
         log.debug(error);
@@ -139,8 +131,9 @@ export class DetailComponent implements OnInit {
   }
 
   create(data: any): void {
-    this.apiHttpService.post(this.apiEndpointsService.postPositionsPagedEndpoint(), data).subscribe((resp: any) => {
+    this.apiHttpService.post(this.apiEndpointsService.postPositionsEndpoint(), data).subscribe((resp: any) => {
       this.id = resp.data; //guid return in data
+      this.showSuccess();
     });
   }
 
@@ -156,7 +149,40 @@ export class DetailComponent implements OnInit {
       positionNumber: ['', Validators.required],
       positionTitle: ['', Validators.required],
       positionDescription: ['', Validators.required],
-      positionSalary: ['', Validators.required],
+      //positionSalary: ['', [Validators.required, RxwebValidators.numeric({allowDecimal:true,isFormat:true})]],
+      positionSalary: ['', RxwebValidators.numeric({ allowDecimal: true, isFormat: true })],
+    });
+  }
+
+  showStandard() {
+    this.toastService.show('I am a standard toast', {
+      delay: 2000,
+      autohide: true,
+    });
+  }
+
+  showSuccess() {
+    this.toastService.show('Task is complete.', {
+      classname: 'bg-success text-light',
+      delay: 200,
+      autohide: true,
+      headertext: 'Great job!',
+    });
+  }
+  showError() {
+    this.toastService.show('Something is wrong.', {
+      classname: 'bg-danger text-light',
+      delay: 200,
+      autohide: true,
+      headertext: 'Error!!!',
+    });
+  }
+
+  showCustomToast(customTpl: any) {
+    this.toastService.show(customTpl, {
+      classname: 'bg-info text-light',
+      delay: 3000,
+      autohide: true,
     });
   }
 }

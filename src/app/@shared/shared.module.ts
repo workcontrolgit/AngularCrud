@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderComponent } from './loader/loader.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
-import { ConfirmationDialogService } from '@core/services/confirmation-dialog.service';
+import { ToastComponent } from './toast/toast.component';
 @NgModule({
-  imports: [CommonModule],
-  declarations: [LoaderComponent, ConfirmationDialogComponent],
-  exports: [LoaderComponent, ConfirmationDialogComponent],
-  providers: [ConfirmationDialogService],
+  imports: [CommonModule, NgbModule],
+  declarations: [LoaderComponent, ConfirmationDialogComponent, ToastComponent],
+  exports: [LoaderComponent, ConfirmationDialogComponent, ToastComponent],
+  providers: [],
 })
 export class SharedModule {}
