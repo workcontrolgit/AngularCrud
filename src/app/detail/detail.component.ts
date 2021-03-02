@@ -80,7 +80,7 @@ export class DetailComponent implements OnInit {
   }
 
   onUpdate() {
-    //this.showSuccess()
+    this.showSuccess();
   }
 
   onDelee() {
@@ -125,6 +125,7 @@ export class DetailComponent implements OnInit {
         this.showSuccess();
       },
       (error) => {
+        this.showError();
         log.debug(error);
       }
     );
@@ -164,9 +165,9 @@ export class DetailComponent implements OnInit {
   showSuccess() {
     this.toastService.show('Task is complete.', {
       classname: 'bg-success text-light',
-      delay: 200,
+      delay: 2000,
       autohide: true,
-      headertext: 'Great job!',
+      headertext: 'Great job!!!',
     });
   }
   showError() {
