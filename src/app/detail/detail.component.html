@@ -7,9 +7,9 @@
   <form [formGroup]="entryForm" novalidate>
     <div class="card">
       <div class="card-header">
-        <div class="float-left"><h3>Position</h3></div>
+        <div class="float-left"><h3 class="text-info">Position</h3></div>
         <div class="float-right">
-          <h5>{{ message }}</h5>
+          <h5 class="text-warning font-italic">{{ message }}</h5>
         </div>
       </div>
       <div class="card-body">
@@ -121,48 +121,39 @@
         </div>
       </div>
       <div class="card-footer">
-        <button
-          (click)="onInsert()"
-          class="btn btn-primary w-20"
-          type="submit"
-          [disabled]="entryForm.invalid || !isAddNew"
-          *ngIf="this.isAddNew"
-        >
-          <span translate>Create</span>
-        </button>
-        <button
-          (click)="onUpdate()"
-          class="btn btn-secondary w-20"
-          type="submit"
-          [disabled]="entryForm.invalid || isAddNew"
-          *ngIf="!this.isAddNew"
-        >
-          <span translate>Update</span>
-        </button>
-        <button
-          (click)="open(mymodal)"
-          class="btn btn-danger w-20"
-          type="submit"
-          [disabled]="entryForm.invalid || isAddNew"
-          *ngIf="!this.isAddNew"
-        >
-          <span translate>Delete</span>
-        </button>
+        <div class="float-left">
+          <button
+            (click)="onInsert()"
+            class="btn btn-primary w-20"
+            type="submit"
+            [disabled]="entryForm.invalid || !isAddNew"
+            *ngIf="this.isAddNew"
+          >
+            <span translate><i class="fas fa-save"></i> Save</span>
+          </button>
+          <button
+            (click)="onUpdate()"
+            class="btn btn-secondary w-20"
+            type="submit"
+            [disabled]="entryForm.invalid || isAddNew"
+            *ngIf="!this.isAddNew"
+          >
+            <span translate><i class="fas fa-edit"></i> Update</span>
+          </button>
+          <button
+            (click)="onDelee()"
+            class="btn btn-danger w-20"
+            type="submit"
+            [disabled]="entryForm.invalid || isAddNew"
+            *ngIf="!this.isAddNew"
+          >
+            <span translate><i class="fas fa-trash-alt"></i> Delete</span>
+          </button>
+        </div>
+        <div class="float-right">
+          <a class="btn text-dark" [routerLink]="['/master']"><i class="fa fa-arrow-left"></i> Back</a>
+        </div>
       </div>
     </div>
   </form>
-
-  <ng-template #mymodal let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Please confirm</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">Do you really want to delete?</div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="modal.close('Cancel')">Cancel</button>
-      <button type="button" class="btn btn-primary" (click)="modal.close('Ok')">Ok</button>
-    </div>
-  </ng-template>
 </div>

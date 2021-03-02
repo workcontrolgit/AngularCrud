@@ -12,6 +12,8 @@ import { DataResponse } from '@shared/classes/data-response';
 
 import { NgbModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
+import { ConfirmationDialogService } from '@core/services/confirmation-dialog.service';
+
 const log = new Logger('Detail');
 
 @Component({
@@ -40,7 +42,8 @@ export class DetailComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private apiHttpService: ApiHttpService,
-    private apiEndpointsService: ApiEndpointsService
+    private apiEndpointsService: ApiEndpointsService,
+    private confirmationDialogService: ConfirmationDialogService
   ) {
     this.modalOptions = {
       backdrop: 'static',
@@ -79,8 +82,27 @@ export class DetailComponent implements OnInit {
   }
 
   onUpdate() {
-    log.debug('onUpdate: ', this.entryForm.value);
-    log.debug('onUpdate: ', this.entryForm.get('positionNumber').value);
+    this.confirmationDialogService
+      .confirm('Update confirmation', 'Are you sure?')
+      .then((confirmed) => {
+        log.debug('onUpdate: ', this.entryForm.value);
+        //here confirmed is true if user clicks OK and false if user clicks Cancel
+      })
+      .catch(() => {
+        log.debug('onUpdate: ', this.entryForm.get('positionNumber').value);
+      });
+  }
+
+  onDelee() {
+    this.confirmationDialogService
+      .confirm('Delete confirmation', 'Are you sure?')
+      .then((confirmed) => {
+        log.debug('onUpdate: ', this.entryForm.value);
+        //here confirmed is true if user clicks OK and false if user clicks Cancel
+      })
+      .catch(() => {
+        log.debug('onUpdate: ', this.entryForm.get('positionNumber').value);
+      });
   }
 
   read(id: any): void {
@@ -135,29 +157,6 @@ export class DetailComponent implements OnInit {
       positionTitle: ['', Validators.required],
       positionDescription: ['', Validators.required],
       positionSalary: ['', Validators.required],
-      //positionSalary: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
     });
-  }
-
-  open(content: any) {
-    this.modalService.open(content, this.modalOptions).result.then(
-      (result) => {
-        this.closeResult = `Closed with: ${result}`;
-        log.debug('Result', result);
-      },
-      (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      }
-    );
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
   }
 }
