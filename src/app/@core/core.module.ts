@@ -8,6 +8,8 @@ import { RouteReusableStrategy } from './route-reusable-strategy';
 import { ApiPrefixInterceptor } from './http/api-prefix.interceptor';
 import { ErrorHandlerInterceptor } from './http/error-handler.interceptor';
 
+import { Constants } from '../config/constants';
+
 @NgModule({
   imports: [CommonModule, HttpClientModule, TranslateModule, RouterModule],
   providers: [
@@ -25,6 +27,7 @@ import { ErrorHandlerInterceptor } from './http/error-handler.interceptor';
       provide: RouteReuseStrategy,
       useClass: RouteReusableStrategy,
     },
+    Constants,
   ],
 })
 export class CoreModule {
