@@ -24,18 +24,12 @@ const log = new Logger('Detail');
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit {
-  title = 'ng-bootstrap-modal-demo';
-  closeResult: string;
-
-  version: string | null = environment.version;
   formMode = 'New';
   sub: any;
   id: any;
   entryForm: FormGroup;
   error: string | undefined;
-
   position: Position;
-
   isAddNew: boolean = false;
 
   constructor(
@@ -63,20 +57,20 @@ export class DetailComponent implements OnInit {
     log.debug('ngOnInit:', this.id);
   }
 
-  // Insert button click
-  onInsert() {
+  // Handle Create button click
+  onCreate() {
     this.create(this.entryForm.value);
     log.debug('OnInsert: ', this.entryForm.value);
     log.debug('OnInsert: ', this.entryForm.get('positionNumber').value);
   }
 
-  // Update button click
+  // Handle Update button click
   onUpdate() {
     this.put(this.entryForm.get('id').value, this.entryForm.value);
     this.showSuccess('Great job!', 'Data is updated');
   }
 
-  // Delete button click
+  // Handle Delete button click
   onDelee() {
     this.confirmationDialogService
       .confirm('Position deletion', 'Are you sure you want to delete?')
@@ -88,7 +82,7 @@ export class DetailComponent implements OnInit {
         //log.debug('onDelee: ', 'Cancel');
       });
   }
-
+  // CRUD > Read, map to REST/HTTP GET
   read(id: any): void {
     this.apiHttpService.get(this.apiEndpointsService.getPositionByIdEndpoint(id), id).subscribe(
       //Assign resp to class-level model object.
@@ -109,7 +103,7 @@ export class DetailComponent implements OnInit {
       }
     );
   }
-
+  // CRUD > Delete, map to REST/HTTP DELETE
   delete(id: any): void {
     this.apiHttpService.delete(this.apiEndpointsService.deletePositionByIdEndpoint(id), id).subscribe(
       (resp: any) => {
@@ -119,12 +113,12 @@ export class DetailComponent implements OnInit {
         this.isAddNew = true;
       },
       (error) => {
-        //this.showError();
         log.debug(error);
       }
     );
   }
 
+  // CRUD > Create, map to REST/HTTP POST
   create(data: any): void {
     this.apiHttpService.post(this.apiEndpointsService.postPositionsEndpoint(), data).subscribe((resp: any) => {
       this.id = resp.data; //guid return in data
@@ -133,6 +127,7 @@ export class DetailComponent implements OnInit {
     });
   }
 
+  // CRUD > Update, map to REST/HTTP PUT
   put(id: string, data: any): void {
     this.apiHttpService.put(this.apiEndpointsService.putPositionsPagedEndpoint(id), data).subscribe((resp: any) => {
       this.id = resp.data; //guid return in data

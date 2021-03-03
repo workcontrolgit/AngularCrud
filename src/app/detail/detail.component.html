@@ -1,9 +1,4 @@
 <div class="container-fluid">
-  <!-- <div class="jumbotron text-center">
-    <h2>
-      <span translate>Angular 11 CRUD Tutorrial</span>
-    </h2>
-  </div> -->
   <form [formGroup]="entryForm" novalidate>
     <div class="card">
       <div class="card-header">
@@ -123,7 +118,7 @@
       <div class="card-footer">
         <div class="float-left">
           <button
-            (click)="onInsert()"
+            (click)="onCreate()"
             class="btn btn-primary w-20"
             type="submit"
             [disabled]="entryForm.invalid || !isAddNew"
