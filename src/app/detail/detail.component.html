@@ -1,15 +1,15 @@
 <div class="container-fluid">
-  <div class="jumbotron text-center">
+  <!-- <div class="jumbotron text-center">
     <h2>
       <span translate>Angular 11 CRUD Tutorrial</span>
     </h2>
-  </div>
+  </div> -->
   <form [formGroup]="entryForm" novalidate>
     <div class="card">
       <div class="card-header">
         <div class="float-left"><h3 class="text-info">Position</h3></div>
         <div class="float-right">
-          <h5 class="text-warning font-italic">{{ message }}</h5>
+          <h5 class="text-warning font-italic">{{ formMode }}</h5>
         </div>
       </div>
       <div class="card-body">
@@ -115,7 +115,7 @@
               class="text-danger"
               translate
             >
-              Position Salary is required
+              Position Salary is required and must be numeric
             </small>
           </label>
         </div>
@@ -157,5 +157,3 @@
     </div>
   </form>
 </div>
-
-<!-- <app-toasts aria-live="polite" aria-atomic="true"></app-toasts> -->

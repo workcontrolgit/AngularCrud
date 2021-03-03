@@ -65,7 +65,7 @@ export class ApiEndpointsService {
 
   public postPositionsEndpoint = (): string => this.createUrl('Positions');
 
-  public putPositionsPagedEndpoint = (): string => this.createUrl('Positions');
+  public putPositionsPagedEndpoint = (id: string): string => this.createUrlWithPathVariables('Positions', [id]);
 
   /* #endregion */
 

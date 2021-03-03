@@ -8,7 +8,7 @@ import { Logger } from '@core';
 import { ApiHttpService } from '@app/services/api-http.service';
 import { ApiEndpointsService } from '@app/services/api-endpoints.service';
 import { Position } from '@shared/models/position';
-import { DataResponse } from '@shared/classes/data-response';
+import { DataResponsePosition } from '@shared/classes/data-response-position';
 
 import { ConfirmationDialogService } from '@app/services/confirmation-dialog.service';
 
@@ -28,13 +28,13 @@ export class DetailComponent implements OnInit {
   closeResult: string;
 
   version: string | null = environment.version;
-  message = '';
+  formMode = 'New';
   sub: any;
   id: any;
   entryForm: FormGroup;
   error: string | undefined;
-  currentRecord: any;
-  model: any = { position: {} };
+
+  position: Position;
 
   isAddNew: boolean = false;
 
@@ -54,60 +54,54 @@ export class DetailComponent implements OnInit {
       this.id = params['id'];
       if (this.id !== undefined) {
         this.read(this.route.snapshot.paramMap.get('id'));
-        this.message = 'Edit';
+        this.formMode = 'Edit';
       } else {
         this.isAddNew = true;
-        this.message = 'New';
+        this.formMode = 'New';
       }
     });
-    log.debug(this.id);
-    if (this.id !== null) {
-      //this.read(this.route.snapshot.paramMap.get('id'));
-    }
-    log.debug(this.model.position);
+    log.debug('ngOnInit:', this.id);
   }
 
-  onSubmit() {
-    //log.debug('onSubmit:' + JSON.stringify(this.entryForm));
-    log.debug('onSubmit:', this.entryForm.value);
-    log.debug('onSubmit:', this.entryForm.get('positionNumber').value);
-  }
-
+  // Insert button click
   onInsert() {
     this.create(this.entryForm.value);
     log.debug('OnInsert: ', this.entryForm.value);
     log.debug('OnInsert: ', this.entryForm.get('positionNumber').value);
   }
 
+  // Update button click
   onUpdate() {
-    this.showSuccess();
+    this.put(this.entryForm.get('id').value, this.entryForm.value);
+    this.showSuccess('Great job!', 'Data is updated');
   }
 
+  // Delete button click
   onDelee() {
     this.confirmationDialogService
       .confirm('Position deletion', 'Are you sure you want to delete?')
       .then((confirmed) => {
-        log.debug('onDelee: ', this.entryForm.value);
         this.delete(this.entryForm.get('id').value);
-        //here confirmed is true if user clicks OK and false if user clicks Cancel
+        //log.debug('onDelee: ', this.entryForm.value);
       })
       .catch(() => {
-        log.debug('onDelee: ', this.entryForm.get('positionNumber').value);
+        //log.debug('onDelee: ', 'Cancel');
       });
   }
 
   read(id: any): void {
     this.apiHttpService.get(this.apiEndpointsService.getPositionByIdEndpoint(id), id).subscribe(
-      (resp: DataResponse) => {
+      //Assign resp to class-level model object.
+      (resp: DataResponsePosition) => {
         //Assign data to class-level model object.
-        this.model.position = resp.data;
+        this.position = resp.data;
         //Populate reactive form controls with model object properties.
         this.entryForm.setValue({
-          id: this.model.position.id,
-          positionNumber: this.model.position.positionNumber,
-          positionTitle: this.model.position.positionTitle,
-          positionDescription: this.model.position.positionDescription,
-          positionSalary: this.model.position.positionSalary,
+          id: this.position.id,
+          positionNumber: this.position.positionNumber,
+          positionTitle: this.position.positionTitle,
+          positionDescription: this.position.positionDescription,
+          positionSalary: this.position.positionSalary,
         });
       },
       (error) => {
@@ -118,14 +112,14 @@ export class DetailComponent implements OnInit {
 
   delete(id: any): void {
     this.apiHttpService.delete(this.apiEndpointsService.deletePositionByIdEndpoint(id), id).subscribe(
-      (resp: DataResponse) => {
-        this.currentRecord = resp.data;
-        log.debug(this.currentRecord);
+      (resp: any) => {
         log.debug(resp);
-        this.showSuccess();
+        this.showSuccess('Great job!', 'Data is deleted');
+        this.entryForm.reset();
+        this.isAddNew = true;
       },
       (error) => {
-        this.showError();
+        //this.showError();
         log.debug(error);
       }
     );
@@ -134,12 +128,13 @@ export class DetailComponent implements OnInit {
   create(data: any): void {
     this.apiHttpService.post(this.apiEndpointsService.postPositionsEndpoint(), data).subscribe((resp: any) => {
       this.id = resp.data; //guid return in data
-      this.showSuccess();
+      this.showSuccess('Great job!', 'Data is inserted');
+      this.entryForm.reset();
     });
   }
 
-  put(data: any): void {
-    this.apiHttpService.post(this.apiEndpointsService.putPositionsPagedEndpoint(), data).subscribe((resp: any) => {
+  put(id: string, data: any): void {
+    this.apiHttpService.put(this.apiEndpointsService.putPositionsPagedEndpoint(id), data).subscribe((resp: any) => {
       this.id = resp.data; //guid return in data
     });
   }
@@ -150,40 +145,16 @@ export class DetailComponent implements OnInit {
       positionNumber: ['', Validators.required],
       positionTitle: ['', Validators.required],
       positionDescription: ['', Validators.required],
-      //positionSalary: ['', [Validators.required, RxwebValidators.numeric({allowDecimal:true,isFormat:true})]],
-      positionSalary: ['', RxwebValidators.numeric({ allowDecimal: true, isFormat: true })],
+      positionSalary: ['', RxwebValidators.numeric({ allowDecimal: true, isFormat: false })],
     });
   }
 
-  showStandard() {
-    this.toastService.show('I am a standard toast', {
-      delay: 2000,
-      autohide: true,
-    });
-  }
-
-  showSuccess() {
-    this.toastService.show('Task is complete.', {
+  showSuccess(headerText: string, bodyText: string) {
+    this.toastService.show(bodyText, {
       classname: 'bg-success text-light',
       delay: 2000,
       autohide: true,
-      headertext: 'Great job!!!',
-    });
-  }
-  showError() {
-    this.toastService.show('Something is wrong.', {
-      classname: 'bg-danger text-light',
-      delay: 200,
-      autohide: true,
-      headertext: 'Error!!!',
-    });
-  }
-
-  showCustomToast(customTpl: any) {
-    this.toastService.show(customTpl, {
-      classname: 'bg-info text-light',
-      delay: 3000,
-      autohide: true,
+      headertext: headerText,
     });
   }
 }
