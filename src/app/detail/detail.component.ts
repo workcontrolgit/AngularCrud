@@ -1,19 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-
-import { environment } from '@env/environment';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Logger } from '@core';
-
 import { ApiHttpService } from '@app/services/api-http.service';
 import { ApiEndpointsService } from '@app/services/api-endpoints.service';
 import { Position } from '@shared/models/position';
 import { DataResponsePosition } from '@shared/classes/data-response-position';
-
 import { ConfirmationDialogService } from '@app/services/confirmation-dialog.service';
-
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
-
 import { ToastService } from '@app/services/toast.service';
 
 const log = new Logger('Detail');
