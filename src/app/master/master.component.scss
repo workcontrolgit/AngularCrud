@@ -7,3 +7,7 @@ q {
   font-size: 1.2rem;
   quotes: "« " " »";
 }
+
+::ng-deep table.dataTable td.dataTables_empty {
+  display: none;
+}
