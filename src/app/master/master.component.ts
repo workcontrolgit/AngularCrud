@@ -25,6 +25,7 @@ export class MasterComponent implements OnInit {
       serverSide: true,
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
+        // Call WebAPI to get positions
         this.apiHttpService
           .post(this.apiEndpointsService.postPositionsPagedEndpoint(), dataTablesParameters)
           .subscribe((resp: DataTablesResponse) => {
@@ -36,6 +37,7 @@ export class MasterComponent implements OnInit {
             });
           });
       },
+      // Set column title and data field
       columns: [
         {
           title: 'Number',
