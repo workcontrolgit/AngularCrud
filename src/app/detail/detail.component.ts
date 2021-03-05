@@ -70,10 +70,10 @@ export class DetailComponent implements OnInit {
       .confirm('Position deletion', 'Are you sure you want to delete?')
       .then((confirmed) => {
         this.delete(this.entryForm.get('id').value);
-        //log.debug('onDelee: ', this.entryForm.value);
+        log.debug('onDelee: ', this.entryForm.value);
       })
       .catch(() => {
-        //log.debug('onDelee: ', 'Cancel');
+        log.debug('onDelee: ', 'Cancel');
       });
   }
   // CRUD > Read, map to REST/HTTP GET
@@ -128,6 +128,7 @@ export class DetailComponent implements OnInit {
     });
   }
 
+  // reactive form
   private createForm() {
     this.entryForm = this.formBuilder.group({
       id: [''],
@@ -137,7 +138,7 @@ export class DetailComponent implements OnInit {
       positionSalary: ['', RxwebValidators.numeric({ allowDecimal: true, isFormat: false })],
     });
   }
-
+  // ngbmodal service
   showSuccess(headerText: string, bodyText: string) {
     this.toastService.show(bodyText, {
       classname: 'bg-success text-light',
