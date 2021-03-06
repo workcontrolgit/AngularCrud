@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { environment } from '@env/environment';
 import { Position } from '@shared/models/position';
 import { ApiHttpService } from '@app/services/api-http.service';
 import { ApiEndpointsService } from '@app/services/api-endpoints.service';
@@ -14,16 +13,8 @@ const log = new Logger('Master');
   styleUrls: ['./master.component.scss'],
 })
 export class MasterComponent implements OnInit {
-  // @ViewChild(DataTableDirective, { static: false })
-  // dtElement!: DataTableDirective;
-
   dtOptions: DataTables.Settings = {};
-  //dtTrigger: Subject<any> = new Subject();
   positions: Position[];
-
-  // We use this trigger because fetching the list of persons can be quite long,
-  // thus we ensure the data is fetched before rendering
-  //dtTrigger: Subject<any> = new Subject<any>();
 
   constructor(private apiHttpService: ApiHttpService, private apiEndpointsService: ApiEndpointsService) {}
 
@@ -34,9 +25,7 @@ export class MasterComponent implements OnInit {
       serverSide: true,
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
-        // log.debug('Search:', dataTablesParameters.search);
-        // log.debug('Draw:', dataTablesParameters.draw);
-        // log.debug('Start:', dataTablesParameters.start);
+        // Call WebAPI to get positions
         this.apiHttpService
           .post(this.apiEndpointsService.postPositionsPagedEndpoint(), dataTablesParameters)
           .subscribe((resp: DataTablesResponse) => {
@@ -48,11 +37,8 @@ export class MasterComponent implements OnInit {
             });
           });
       },
+      // Set column title and data field
       columns: [
-        // {
-        //   title: 'Id',
-        //   data: 'id',
-        // },
         {
           title: 'Number',
           data: 'positionNumber',
