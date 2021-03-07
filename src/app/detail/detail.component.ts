@@ -69,8 +69,10 @@ export class DetailComponent implements OnInit {
     this.confirmationDialogService
       .confirm('Position deletion', 'Are you sure you want to delete?')
       .then((confirmed) => {
-        this.delete(this.entryForm.get('id').value);
-        log.debug('onDelee: ', this.entryForm.value);
+        if (confirmed) {
+          this.delete(this.entryForm.get('id').value);
+          log.debug('onDelee: ', this.entryForm.value);
+        }
       })
       .catch(() => {
         log.debug('onDelee: ', 'Cancel');
