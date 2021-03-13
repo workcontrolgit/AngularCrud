@@ -13,6 +13,8 @@ import { MasterModule } from './master/master.module';
 import { ShellModule } from './shell/shell.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+// import { ModalContainerComponent } from './modal-container/modal-container.component';
+// import { ModalContentComponent } from './modal-content/modal-content.component';
 
 @NgModule({
   imports: [

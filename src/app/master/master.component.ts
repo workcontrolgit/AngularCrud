@@ -5,6 +5,8 @@ import { ApiHttpService } from '@app/services/api-http.service';
 import { ApiEndpointsService } from '@app/services/api-endpoints.service';
 import { DataTablesResponse } from '@shared/classes/data-tables-response';
 import { Logger } from '@core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalContentComponent } from '../modal-content/modal-content.component';
 
 const log = new Logger('Master');
 @Component({
@@ -16,7 +18,15 @@ export class MasterComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   positions: Position[];
 
-  constructor(private apiHttpService: ApiHttpService, private apiEndpointsService: ApiEndpointsService) {}
+  public user = {
+    name: 'Izzat Nadiri',
+    age: 26,
+  };
+  constructor(
+    private apiHttpService: ApiHttpService,
+    private apiEndpointsService: ApiEndpointsService,
+    public modalService: NgbModal
+  ) {}
 
   ngOnInit() {
     this.dtOptions = {
@@ -57,5 +67,18 @@ export class MasterComponent implements OnInit {
         },
       ],
     };
+  }
+
+  openModal() {
+    const modalRef = this.modalService.open(ModalContentComponent);
+    modalRef.componentInstance.user = this.user;
+    modalRef.result.then((result) => {
+      if (result) {
+        console.log(result);
+      }
+    });
+    // modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
+    //   console.log(receivedEntry);
+    // })
   }
 }
