@@ -15,8 +15,18 @@ const log = new Logger('Master');
 export class MasterComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   positions: Position[];
+  message = '';
 
   constructor(private apiHttpService: ApiHttpService, private apiEndpointsService: ApiEndpointsService) {}
+
+  someClickHandler(info: any): void {
+    this.message = info.id + ' - ' + info.firstName;
+    log.debug(this.message);
+  }
+
+  wholeRowClick(position: Position): void {
+    console.log('Whole row clicked.', position);
+  }
 
   ngOnInit() {
     this.dtOptions = {
@@ -25,6 +35,8 @@ export class MasterComponent implements OnInit {
       serverSide: true,
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
+        //TODO Load from Akita
+        //dataTablesParameters.start = 20;
         // Call WebAPI to get positions
         this.apiHttpService
           .post(this.apiEndpointsService.postPositionsPagedEndpoint(), dataTablesParameters)
@@ -56,6 +68,18 @@ export class MasterComponent implements OnInit {
           data: 'positionSalary',
         },
       ],
+      // rowCallback: (row: Node, data: any[] | Object, index: number) => {
+      //   const self = this;
+      //   // Unbind first in order to avoid any duplicate handler
+      //   // (see https://github.com/l-lin/angular-datatables/issues/87)
+      //   // Note: In newer jQuery v3 versions, `unbind` and `bind` are
+      //   // deprecated in favor of `off` and `on`
+      //   $('td', row).off('click');
+      //   $('td', row).on('click', () => {
+      //     self.someClickHandler(data);
+      //   });
+      //   return row;
+      // }
     };
   }
 }
