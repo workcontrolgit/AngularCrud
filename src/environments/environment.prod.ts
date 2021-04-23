@@ -12,4 +12,6 @@ export const environment = {
   serverUrl: 'https://api.chucknorris.io',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US'],
+  Api_Endpoint: 'https://angularcrudapi.azurewebsites.net/api/v1',
+  Api_Mock_Endpoint: 'https://angular-datatables-demo-server.herokuapp.com',
 };
